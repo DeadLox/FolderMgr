@@ -2,7 +2,7 @@
 require_once('Folder.class.php');
 require_once('File.class.php');
 
-$defautPath = "classements";
+$defautPath = "First level";
 $currentFolder = Folder::getCurrentFolder($defautPath);
 // echo '<pre>';
 // var_dump($currentFolder);
@@ -15,9 +15,10 @@ $currentFolder = Folder::getCurrentFolder($defautPath);
 	<title>FileMgr</title>
 </head>
 <body>
+	<h1><?php echo $currentFolder->getName(); ?></h2>
 	<?php
 	if ($currentFolder->hasLastFolder()) { ?>
-		<a href="<?php echo $currentFolder->getUrlLastFolder(); ?>">Retour <?php echo $currentFolder->getLastFolder(); ?></a>
+		Retour <a href="<?php echo $currentFolder->getUrlLastFolder(); ?>"><?php echo $currentFolder->getLastFolder(); ?></a>
 	<?php } ?>
 	<?php
 	$folders = $currentFolder->getFolders();
@@ -25,7 +26,7 @@ $currentFolder = Folder::getCurrentFolder($defautPath);
 		<ul>
 		<?php
 		foreach ($folders as $key => $folder) { ?>
-			<li><a href="?path=<?php echo $folder->getUrlPath(); ?>"><?php echo $folder->getName(); ?></a></li>
+			<li><a href="?path=<?php echo $folder->getUrlPath(); ?>">[FOLDER] <?php echo $folder->getName(); ?></a></li>
 		<?php } ?>
 		</ul>
 	<?php } ?>
@@ -35,7 +36,7 @@ $currentFolder = Folder::getCurrentFolder($defautPath);
 		<ul>
 		<?php
 		foreach ($files as $key => $file) { ?>
-			<li><a href="<?php echo $file->getPath(); ?>"><?php echo $file->getName(); ?></a></li>
+			<li><a href="<?php echo $file->getPath(); ?>">[FILE] <?php echo $file->getName(); ?></a></li>
 		<?php } ?>
 		</ul>
 	<?php } ?>

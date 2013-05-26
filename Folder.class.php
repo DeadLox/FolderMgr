@@ -14,6 +14,7 @@ class Folder {
 	private $messageList;
 	private $blacklistFolder = array(".", "..", "@eachDir");
 	private $blacklistFile = array("thumbs.db");
+	private static $blacklistPath = array(".", "..");
 
 	private static $rootPath;
 
@@ -74,6 +75,9 @@ class Folder {
 		Folder::$rootPath = $defautPath;
 		if (isset($_GET) && !empty($_GET)) {
 			extract($_GET);
+			if (Folder::checkPath($path)) {
+				$path = Folder::$rootPath;
+			}
 			$currentFolder = new Folder($path);
 			$currentFolder->listFolder();
 		} else {
@@ -81,6 +85,17 @@ class Folder {
 			$currentFolder->listFolder();
 		}
 		return $currentFolder;
+	}
+
+	/**
+	 * Permet de vérifier si le chemin ne contient pas des chemins non souhaités
+	 */
+	public static function checkPath($path) {
+		if (in_array($path, Folder::$blacklistPath)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public function getPath(){
