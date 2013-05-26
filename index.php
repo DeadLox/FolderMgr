@@ -4,6 +4,12 @@ require_once('File.class.php');
 
 $defautPath = "First level";
 $currentFolder = Folder::getCurrentFolder($defautPath);
+
+if (isset($_POST) && !empty($_POST)) {
+	extract($_POST);
+	$currentFolder->createFolder($folderName);
+	$currentFolder->listFolder();
+}
 // echo '<pre>';
 // var_dump($currentFolder);
 // echo '</pre>';
@@ -15,7 +21,11 @@ $currentFolder = Folder::getCurrentFolder($defautPath);
 	<title>FileMgr</title>
 </head>
 <body>
-	<h1><?php echo $currentFolder->getName(); ?></h2>
+	<h1><?php echo $currentFolder->getName(); ?></h1>
+	<form method="POST" action="">
+		<input type="text" value="" name="folderName"/>
+		<input type="submit" value="Créer"/>
+	</form>
 	<?php
 	if ($currentFolder->hasLastFolder()) { ?>
 		Retour <a href="<?php echo $currentFolder->getUrlLastFolder(); ?>"><?php echo $currentFolder->getLastFolder(); ?></a>

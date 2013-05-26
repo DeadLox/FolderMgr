@@ -24,6 +24,14 @@ class Folder {
 		$this->lastFolder = $this->findLastFolder();
 	}
 
+	public function createFolder($folderName){
+		if (mkdir($this->path.'/'.$folderName)) {
+			$messageList[] = "Le dossier ".$folderName." a bien été créé.";
+		} else {
+			$messageList[] = "Une erreur s'est produite lors de création du dossier.";
+		}
+	}
+
 	private function findLastFolder(){
 		$pos = strrpos($this->path, "/");
 		if ($pos === false) {
@@ -43,6 +51,8 @@ class Folder {
 
 	public function listFolder(){
         if(is_dir($this->path)){
+        	$this->folderList = array();
+        	$this->fileList = array();
             $directory = opendir($this->path);
             while($entry = @readdir($directory)){
             	$entryPath = $this->path.'/'.$entry;
