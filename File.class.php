@@ -9,11 +9,14 @@ class File {
 	private $name;
 	private $fullName;
 	private $extension;
+	private $filesize;
+	private $sizeUnit;
 
 	public function __construct($path) {
 		$this->path = $path;
 		$this->fullName = $this->getFileName();
 		$this->getExtAndName();
+		$this->getSize();
 	}
 
 	/**
@@ -39,6 +42,23 @@ class File {
 		}
 	}
 
+	private function getSize(){
+		$size = filesize($this->path);
+		if ($size < 1024) {
+			$this->sizeUnit = "Oc";
+			$this->filesize = $size;
+		} else if ($size < 1048576) {
+			$this->sizeUnit = "Ko";
+			$this->filesize = $size/1024;
+		} else if ($size < 1073741824) {
+			$this->sizeUnit = "Mo";
+			$this->filesize = $size/1048576;
+		} else {
+			$this->sizeUnit = "Go";
+			$this->filesize = $size/1073741824;
+		}
+	}
+
 	public function getPath(){
 		return $this->path;
 	}
@@ -50,5 +70,11 @@ class File {
 	}
 	public function getFullName(){
 		return $this->fullName;
+	}
+	public function getFilesize(){
+		return $this->filesize;
+	}
+	public function getSizeUnit(){
+		return $this->sizeUnit;
 	}
 }

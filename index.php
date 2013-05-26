@@ -36,7 +36,7 @@ $currentFolder = Folder::getCurrentFolder($defautPath);
 		<ul>
 		<?php
 		foreach ($files as $key => $file) { ?>
-			<li><a href="<?php echo $file->getPath(); ?>">[FILE] <?php echo $file->getName(); ?></a></li>
+			<li><a href="<?php echo $file->getPath(); ?>">[FILE] <?php echo $file->getName().' '.$file->getFilesize().' '.$file->getSizeUnit(); ?></a></li>
 		<?php } ?>
 		</ul>
 	<?php } ?>
