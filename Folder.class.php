@@ -4,7 +4,6 @@
  * 
  * @DeadLox
  */
-// use File.class.php AS File;
 class Folder {
 	private $path;
 	private $absolutePath;
