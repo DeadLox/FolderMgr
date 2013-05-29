@@ -7,6 +7,7 @@
 // use File.class.php AS File;
 class Folder {
 	private $path;
+	private $absolutePath;
 	private $name;
 	private $lastFolder;
 	private $folderList;
@@ -15,21 +16,44 @@ class Folder {
 	private $blacklistFolder = array(".", "..", "@eachDir");
 	private $blacklistFile = array("thumbs.db");
 	private static $blacklistPath = array(".", "..");
+	private static $blacklistFolderName = array("", ".", "..");
 
 	private static $rootPath;
 
 	public function __construct($path){
 		$this->path = $path;
 		$this->name = $this->getFolderName();
+		$this->absolutePath = $this->findAbsolutePath();
 		$this->lastFolder = $this->findLastFolder();
 	}
 
 	public function createFolder($folderName){
-		if (mkdir($this->path.'/'.$folderName)) {
+		if (!in_array($folderName, Folder::$blacklistFolderName) && mkdir($this->path.'/'.$folderName)) {
 			$messageList[] = "Le dossier ".$folderName." a bien été créé.";
 		} else {
 			$messageList[] = "Une erreur s'est produite lors de création du dossier.";
 		}
+		return $messageList;
+	}
+
+	public function renameFolder($newfolderName){
+		if (!in_array($newfolderName, Folder::$blacklistFolderName) && rename($this->path, $this->absolutePath.''.$newfolderName)) {
+			$this->path = $this->absolutePath.''.$newfolderName;
+			$this->name = $newfolderName;
+			$messageList[] = "Le dossier ".$newfolderName." a bien été renommé.";
+		} else {
+			$messageList[] = "Une erreur s'est produite lors du renommage du dossier.";
+		}
+		return $messageList;
+	}
+
+	public function deleteFolder(){
+		if (rmdir($this->path)) {
+			$messageList[] = "Le dossier a bien été supprimé.";
+		} else {
+			$messageList[] = "Une erreur s'est produite lors de suppression du dossier.";
+		}
+		return $messageList;
 	}
 
 	private function findLastFolder(){
@@ -97,6 +121,15 @@ class Folder {
 		return $currentFolder;
 	}
 
+	public function findAbsolutePath(){
+		$pos = strrpos($this->path, "/");
+		if ($pos === false) {
+			return $this->path;
+		} else {
+			return substr($this->path, 0, $pos+1);
+		}
+	}
+
 	/**
 	 * Permet de vérifier si le chemin ne contient pas des chemins non souhaités
 	 */
@@ -113,6 +146,9 @@ class Folder {
 	}
 	public function getUrlPath() {
 		return urlencode($this->path);
+	}
+	public function getAbsolutePath(){
+		return $this->absolutePath;
 	}
 	public function getName(){
 		return $this->name;

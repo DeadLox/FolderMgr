@@ -7,7 +7,13 @@ $currentFolder = Folder::getCurrentFolder($defautPath);
 
 if (isset($_POST) && !empty($_POST)) {
 	extract($_POST);
-	$currentFolder->createFolder($folderName);
+	if (isset($create)) {
+		$messages = $currentFolder->createFolder($folderName);
+	} else if (isset($rename)) {
+		$messages = $currentFolder->renameFolder($folderName);
+	} else if (isset($delete)) {
+		$messages = $currentFolder->deleteFolder();
+	}
 	$currentFolder->listFolder();
 }
 // echo '<pre>';
@@ -22,9 +28,17 @@ if (isset($_POST) && !empty($_POST)) {
 </head>
 <body>
 	<h1><?php echo $currentFolder->getName(); ?></h1>
+	<?php
+	if (isset($messages)) { ?>
+		<?php foreach ($messages as $key => $message) { ?>
+			<div><?php echo $message; ?></div>
+	<?php } } ?>
 	<form method="POST" action="">
+		<input type="hidden" name="action" value="create"/>
 		<input type="text" value="" name="folderName"/>
-		<input type="submit" value="Créer"/>
+		<input type="submit" name="create" value="Créer"/>
+		<input type="submit" name="rename" value="Renommer"/>
+		<input type="submit" name="delete" value="Supprimer"/>
 	</form>
 	<?php
 	if ($currentFolder->hasLastFolder()) { ?>
