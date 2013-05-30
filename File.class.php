@@ -87,6 +87,9 @@ class File {
 	public function getEditDate(){
 		return $this->editDate;
 	}
+	public function getExtension(){
+		return $this->extension;
+	}
 
 	/* --- Magic Getters --- */
 	public function __get($property){

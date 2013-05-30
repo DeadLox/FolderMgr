@@ -4,6 +4,7 @@ require_once('Folder.class.php');
 require_once('File.class.php');
 
 $defautPath = "First level";
+Folder::addExtToBlackList(array('txt'));
 $currentFolder = Folder::getCurrentFolder($defautPath);
 
 if (isset($_POST) && !empty($_POST)) {
@@ -59,7 +60,7 @@ if (isset($_POST) && !empty($_POST)) {
 		<ul>
 		<?php
 		foreach ($files as $key => $file) { ?>
-			<li><a href="<?php echo $file->getPath(); ?>">[FILE] <?php echo $file->getName(); ?></a></li>
+			<li><a href="<?php echo $file->getPath(); ?>">[FILE] <?php echo $file->getFullName(); ?></a></li>
 		<?php } ?>
 		</ul>
 	<?php } ?>

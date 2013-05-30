@@ -16,6 +16,7 @@ class Folder {
 	private $editDate;
 	private $blacklistFolder = array(".", "..", "@eachDir");
 	private $blacklistFile = array("thumbs.db");
+	private static $blacklistExtension = array();
 	private static $blacklistPath = array(".", "..");
 	private static $blacklistFolderName = array("", ".", "..");
 
@@ -28,6 +29,11 @@ class Folder {
 		$this->lastFolder = $this->findLastFolder();
 		$this->createDate = filectime($this->path);
 		$this->editDate = filemtime($this->path);
+	}
+
+	// Permet d'ajouter des extensions de fichiers à la blacklist
+	public static function addExtToBlackList($arrayToAdd){
+		Folder::$blacklistExtension = array_merge(Folder::$blacklistExtension, $arrayToAdd);
 	}
 
 	public function createFolder($folderName){
@@ -106,7 +112,10 @@ class Folder {
                     $this->folderList[] = new Folder($entryPath);          
                 }
                 if(!is_dir($entryPath) && !in_array($entry, $this->blacklistFile)){
-                    $this->fileList[] = new File($entryPath);          
+                	$file = new File($entryPath);
+                	if (!in_array($file->getExtension(), Folder::$blacklistExtension)){
+                    	$this->fileList[] = $file;
+                    }       
                 }
             }
             closedir($directory);
