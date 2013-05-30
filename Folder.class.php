@@ -12,6 +12,8 @@ class Folder {
 	private $folderList;
 	private $fileList;
 	private $messageList;
+	private $createDate;
+	private $editDate;
 	private $blacklistFolder = array(".", "..", "@eachDir");
 	private $blacklistFile = array("thumbs.db");
 	private static $blacklistPath = array(".", "..");
@@ -24,6 +26,8 @@ class Folder {
 		$this->name = $this->getFolderName();
 		$this->absolutePath = $this->findAbsolutePath();
 		$this->lastFolder = $this->findLastFolder();
+		$this->createDate = filectime($this->path);
+		$this->editDate = filemtime($this->path);
 	}
 
 	public function createFolder($folderName){
@@ -101,6 +105,26 @@ class Folder {
 		}
 	}
 
+	// Tri des fichiers par un champ
+	public function getFoldersByField($field, $asc = true, $cmp = true) {
+		$cmp = $cmp ? 'strcmp' : 'intcmp';
+		$comparator = new ObjectComparator(array(
+		  $field => $cmp,
+		), $asc);
+		$array = $comparator->sort($this->folderList);
+		return $array;
+	}
+
+	// Tri des fichiers par un champ
+	public function getFilesByField($field, $asc = true, $cmp = true) {
+		$cmp = $cmp ? 'strcmp' : 'intcmp';
+		$comparator = new ObjectComparator(array(
+		  $field => $cmp,
+		), $asc);
+		$array = $comparator->sort($this->fileList);
+		return $array;
+	}
+
 	/**
 	 * Methode statique permettant de récupérer le dossier courant
 	 */
@@ -163,5 +187,18 @@ class Folder {
 	}
 	public function getFiles(){
 		return $this->fileList;
+	}
+	public function getCreateDate(){
+		return $this->createDate;
+	}
+	public function getEditDate(){
+		return $this->editDate;
+	}
+
+	/* --- Magic Getters --- */
+	public function __get($property){
+		if (property_exists($this, $property)) {
+			return $this->$property;
+		}
 	}
 }

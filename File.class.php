@@ -11,12 +11,16 @@ class File {
 	private $extension;
 	private $filesize;
 	private $sizeUnit;
+	private $createDate;
+	private $editDate;
 
 	public function __construct($path) {
 		$this->path = $path;
 		$this->fullName = $this->getFileName();
 		$this->getExtAndName();
 		$this->getSize();
+		$this->createDate = filectime($this->path);
+		$this->editDate = filemtime($this->path);
 	}
 
 	/**
@@ -76,5 +80,18 @@ class File {
 	}
 	public function getSizeUnit(){
 		return $this->sizeUnit;
+	}
+	public function getCreateDate(){
+		return $this->createDate;
+	}
+	public function getEditDate(){
+		return $this->editDate;
+	}
+
+	/* --- Magic Getters --- */
+	public function __get($property){
+		if (property_exists($this, $property)) {
+			return $this->$property;
+		}
 	}
 }

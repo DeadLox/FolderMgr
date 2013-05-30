@@ -1,4 +1,5 @@
 <?php
+require_once('ObjectComparator.class.php');
 require_once('Folder.class.php');
 require_once('File.class.php');
 
@@ -45,7 +46,7 @@ if (isset($_POST) && !empty($_POST)) {
 		Retour <a href="<?php echo $currentFolder->getUrlLastFolder(); ?>"><?php echo $currentFolder->getLastFolder(); ?></a>
 	<?php } ?>
 	<?php
-	$folders = $currentFolder->getFolders();
+	$folders = $currentFolder->getFoldersByField("name", true);
 	if (sizeof($folders) > 0) { ?>
 		<ul>
 		<?php
@@ -55,12 +56,12 @@ if (isset($_POST) && !empty($_POST)) {
 		</ul>
 	<?php } ?>
 	<?php
-	$files = $currentFolder->getFiles();
+	$files = $currentFolder->getFilesByField("editDate", true, false);
 	if (sizeof($files) > 0) { ?>
 		<ul>
 		<?php
 		foreach ($files as $key => $file) { ?>
-			<li><a href="<?php echo $file->getPath(); ?>">[FILE] <?php echo $file->getName().' '.$file->getFilesize().' '.$file->getSizeUnit(); ?></a></li>
+			<li><a href="<?php echo $file->getPath(); ?>">[FILE] <?php echo $file->getName(); ?></a></li>
 		<?php } ?>
 		</ul>
 	<?php } ?>
