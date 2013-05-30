@@ -50,13 +50,22 @@ class Folder {
 		return $messageList;
 	}
 
-	public function deleteFolder(){
-		if (rmdir($this->path)) {
-			$messageList[] = "Le dossier a bien été supprimé.";
-		} else {
-			$messageList[] = "Une erreur s'est produite lors de suppression du dossier.";
-		}
-		return $messageList;
+	public function deleteFolder($path = ""){
+		$path = ($path == "")? $this->path : $path;
+        $directory = opendir($path);
+        while($entry = @readdir($directory)){
+        	$entryPath = $path.'/'.$entry;
+            if(is_dir($entryPath) && !in_array($entry, array('.', '..'))){
+            	if (file_exists($entryPath)) {
+                	$this->deleteFolder($entryPath);  
+            	}
+            	rmdir($entryPath);
+            }
+            if (is_file($entryPath) && is_link($entryPath)) {
+            	unlink($entryPath);
+            }
+        }
+        closedir($directory);
 	}
 
 	private function findLastFolder(){

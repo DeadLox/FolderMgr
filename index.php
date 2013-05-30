@@ -13,13 +13,11 @@ if (isset($_POST) && !empty($_POST)) {
 	} else if (isset($rename)) {
 		$messages = $currentFolder->renameFolder($folderName);
 	} else if (isset($delete)) {
-		$messages = $currentFolder->deleteFolder();
+		$currentFolder->deleteFolder();
+		header('location: '.$currentFolder->getUrlLastFolder());
 	}
 	$currentFolder->listFolder();
 }
-// echo '<pre>';
-// var_dump($currentFolder);
-// echo '</pre>';
 ?>
 <!DOCTYPE HTML>
 <html lang="fr-FR">
