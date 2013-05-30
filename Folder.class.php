@@ -12,8 +12,8 @@ class Folder {
 	private $folderList;
 	private $fileList;
 	private $messageList;
-	private $blacklistFolder = array(".", "..", "@eachDir");
-	private $blacklistFile = array("thumbs.db");
+	private $blacklistFolder = array(".", "..", "@eaDir", "@eachDir");
+	private $blacklistFile = array("Thumbs.db");
 	private static $blacklistPath = array(".", "..");
 	private static $blacklistFolderName = array("", ".", "..");
 
