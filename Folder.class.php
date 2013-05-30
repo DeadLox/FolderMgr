@@ -50,6 +50,7 @@ class Folder {
 		return $messageList;
 	}
 
+	// Supprime un répertoire et tout son contenu
 	public function deleteFolder($path = ""){
 		$path = ($path == "")? $this->path : $path;
         $directory = opendir($path);
@@ -66,6 +67,15 @@ class Folder {
             }
         }
         closedir($directory);
+	}
+
+	// Supprime un array de fichier
+	public function deleteFiles($listFiles){
+		if (sizeof($listFiles) > 0) {
+			foreach ($listFiles as $fileName) {
+				unlink($this->path."/".$fileName);
+			}
+		}
 	}
 
 	private function findLastFolder(){
