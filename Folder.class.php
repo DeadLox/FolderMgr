@@ -14,8 +14,8 @@ class Folder {
 	private $messageList;
 	private $createDate;
 	private $editDate;
-	private $blacklistFolder = array(".", "..", "@eachDir");
-	private $blacklistFile = array("thumbs.db");
+	private $blacklistFolder = array(".", "..", "@eaDir");
+	private $blacklistFile = array("Thumbs.db");
 	private static $blacklistExtension = array();
 	private static $blacklistPath = array(".", "..");
 	private static $blacklistFolderName = array("", ".", "..");

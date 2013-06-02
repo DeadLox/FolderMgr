@@ -4,7 +4,7 @@ require_once('Folder.class.php');
 require_once('File.class.php');
 
 $defautPath = "First level";
-Folder::addExtToBlackList(array('txt'));
+//Folder::addExtToBlackList(array('txt'));
 $currentFolder = Folder::getCurrentFolder($defautPath);
 
 if (isset($_POST) && !empty($_POST)) {
