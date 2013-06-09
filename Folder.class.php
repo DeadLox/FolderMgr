@@ -62,17 +62,21 @@ class Folder {
         $directory = opendir($path);
         while($entry = @readdir($directory)){
         	$entryPath = $path.'/'.$entry;
-            if(is_dir($entryPath) && !in_array($entry, array('.', '..'))){
-            	if (file_exists($entryPath)) {
-                	$this->deleteFolder($entryPath);  
-            	}
-            	rmdir($entryPath);
-            }
-            if (is_file($entryPath) && is_link($entryPath)) {
-            	unlink($entryPath);
-            }
+        	if (!in_array($entry, array('.', '..'))) {
+	            if(is_dir($entryPath)){
+	            	if (file_exists($entryPath)) {
+	                	$this->deleteFolder($entryPath);  
+	            	} else {
+	            		rmdir($entryPath);
+	            	}
+	            }
+	            if (is_file($entryPath) || is_link($entryPath)) {
+	            	unlink($entryPath);
+	            }
+	        }
         }
         closedir($directory);
+	    rmdir($path);
 	}
 
 	// Supprime un array de fichiers

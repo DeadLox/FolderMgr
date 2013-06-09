@@ -56,7 +56,10 @@ if (isset($_POST) && !empty($_POST)) {
 			<ul>
 			<?php
 			foreach ($folders as $key => $folder) { ?>
-				<li><a href="?path=<?php echo $folder->getUrlPath(); ?>">[FOLDER] <?php echo $folder->getName(); ?></a></li>
+				<li>
+					<input type="checkbox" name="files[]" value="<?php echo $folder->getName(); ?>" />
+					<a href="?path=<?php echo $folder->getUrlPath(); ?>">[FOLDER] <?php echo $folder->getName(); ?></a>
+				</li>
 			<?php } ?>
 			</ul>
 		<?php } ?>
