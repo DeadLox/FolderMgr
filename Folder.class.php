@@ -75,11 +75,15 @@ class Folder {
         closedir($directory);
 	}
 
-	// Supprime un array de fichier
+	// Supprime un array de fichiers
 	public function deleteFiles($listFiles){
 		if (sizeof($listFiles) > 0) {
 			foreach ($listFiles as $fileName) {
-				unlink($this->path."/".$fileName);
+				if (is_dir($this->path."/".$fileName)) {
+					$this->deleteFolder($this->path."/".$fileName);
+				} else {
+					unlink($this->path."/".$fileName);
+				}
 			}
 		}
 	}
