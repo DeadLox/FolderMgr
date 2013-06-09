@@ -32,7 +32,9 @@ class ObjectComparator {
 	}
 
 	public function sort($array){
-		usort($array, array($this, 'compare'));
+		if (sizeof($array) > 0) {
+			usort($array, array($this, 'compare'));
+		}
 		return $array;
 	}
 }

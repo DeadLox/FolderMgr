@@ -14,7 +14,7 @@ class Folder {
 	private $messageList;
 	private $createDate;
 	private $editDate;
-	private $blacklistFolder = array(".", "..", "@eaDir");
+	private $blacklistFolder = array(".", "..", "@eaDir", ".svn");
 	private $blacklistFile = array("Thumbs.db");
 	private static $blacklistExtension = array();
 	private static $blacklistPath = array(".", "..");
